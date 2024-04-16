@@ -12,9 +12,9 @@ const AboutSection = () => {
 			<div>
 				<h1 className="text-xl font-bold">Martin Loretz</h1>
 				<p>
-					Hey, I'm an engineer, software developer and AI enthusiast. I also like to build things, like an 8 bit
+					Hey, I&apos;m an engineer, software developer and AI enthusiast. I also like to build things, like an 8 bit
 					computer out of logic gates, self balancing robots and motorised bobbycars. This is the home of the place for
-					cool things I've built, for poorly researched ideas and random thoughts.
+					cool things I&apos;ve built, for poorly researched ideas and random thoughts.
 				</p>
 				<br />
 				<SocialCard />
