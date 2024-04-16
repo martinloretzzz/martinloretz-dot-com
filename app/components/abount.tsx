@@ -3,7 +3,7 @@ import { EmailIcon, GithubIcon, TwitterIcon } from "./icons";
 
 export const AboutSection = () => {
 	return (
-		<div className="flex space-x-4 space-y-4 flex-col md:flex-row">
+		<div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0">
 			<div className="flex justify-center">
 				<div className="w-48 h-48">
 					<Image className="rounded-full" src="/martin.jpg" width={640} height={640} alt="Martin Loretz" />

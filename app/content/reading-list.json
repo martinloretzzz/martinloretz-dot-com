@@ -1,0 +1,50 @@
+[
+	{
+		"name": "The singularity is nearer",
+		"author": "George Hotz",
+		"url": "https://geohot.github.io/blog/",
+		"type": "blog"
+	},
+	{
+		"name": "The Cook and the Chef: Musk's Secret Sauce",
+		"author": "Tim Urban/Wait But Why",
+		"url": "https://waitbutwhy.com/2015/11/the-cook-and-the-chef-musks-secret-sauce.html",
+		"type": "blog-post"
+	},
+	{
+		"name": "The Bitter Lesson",
+		"author": "Rich Sutton",
+		"url": "http://www.incompleteideas.net/IncIdeas/BitterLesson.html",
+		"type": "blog-post"
+	},
+	{
+		"name": "How to Get Rich",
+		"author": "Naval",
+		"url": "https://nav.al/rich",
+		"type": "blog-post"
+	},
+	{
+		"name": "Life 3.0",
+		"author": "Max Tegmark",
+		"url": "https://futureoflife.org/resource/life-3-0-being-human-in-the-age-of-artificial-intelligence/",
+		"type": "book"
+	},
+	{
+		"name": "Micrograd",
+		"author": "Andrej Karpathy",
+		"url": "https://github.com/karpathy/micrograd",
+		"type": "code"
+	},
+	{
+		"name": "Hacking the Simulation & Learning to Drive with Neural Net",
+		"author": "George Hotz/Lex Fridman Podcast#132",
+		"url": "https://www.youtube.com/watch?v=_L3gNaAVjQ4",
+		"type": "podcast"
+	},
+	{
+		"name": "Moore's Law, Microprocessors, and First Principles",
+		"author": "Jim Keller/Lex Fridman Podcast#70",
+		"url": "https://www.youtube.com/watch?v=Nb2tebYAaOA",
+		"type": "podcast"
+	}
+]
