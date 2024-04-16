@@ -1,6 +1,6 @@
 ## Personal Website
 
-Visit [martinloretz.com](martinloretz.com)
+Visit [martinloretz.com](https://martinloretz.com)
 
 X/Twitter: [@martinloretzzz](https://twitter.com/martinloretzzz)
 
