@@ -24,6 +24,8 @@ export const AboutSection = () => {
 };
 
 export const SocialCard = () => {
+	const emailDecodeScript =
+		'const email = atob("YmxvZ0BtYXJ0aW5sb3JldHouY29t"); const emailLink = document.getElementById("contact-email"); emailLink.innerText = email; emailLink.href = `mailto:${email}`;';
 	return (
 		<p>
 			<TwitterIcon size={16} />{" "}
@@ -36,7 +38,11 @@ export const SocialCard = () => {
 				@martinloretzzz
 			</a>
 			<br />
-			<EmailIcon size={16} /> <a href="mailto:web@martinloretz.com">blog@martinloretz.com</a>
+			<EmailIcon size={16} />{" "}
+			<a id="contact-email" href="mailto:null" suppressHydrationWarning>
+				xxxx@xxxxxxxxxxxx.com
+			</a>
+			<script dangerouslySetInnerHTML={{ __html: emailDecodeScript }}></script>
 		</p>
 	);
 };
