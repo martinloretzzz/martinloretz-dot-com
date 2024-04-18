@@ -12,7 +12,7 @@ export const Tweet: FC<TweetProps> = ({ id, text, date }) => {
 	return (
 		<div key={id} className="flex flex-row justify-start space-x-2 font-sans">
 			<div className="w-[32px] shrink-0">
-				<Image className="rounded-full" src="/martin.jpg" width={32} height={32} alt="@martinloretzzz" />
+				<Image className="rounded-full" src="/twitter-profile.jpg" width={32} height={32} alt="@martinloretzzz" />
 			</div>
 			<div className="grow">
 				<a href="https://twitter.com/martinloretzzz" target="_blank">

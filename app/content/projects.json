@@ -1,1 +1,24 @@
-[]
+[
+	{
+		"name": "happyswing",
+		"description": "A huge swing that generates music and light effects, depending on how crazy you swing.",
+		"link": "https://www.mohap.at/schaukel-1/",
+		"image": "/projects/swing.jpg"
+	},
+	{
+		"name": "Three Body Problem",
+		"description": "A simulation of the three body problem to explore how different initial conditions and why it's differential equation is unsolveable.",
+		"link": "https://martinloretzzz.github.io/three-body-problem/",
+		"image": "/projects/three-body-problem.jpg"
+	},
+	{
+		"name": "Electric bobbycar",
+		"description": "An electrically motorized bobbycar that drives 25km/h.",
+		"image": "/projects/bobbycar.jpg"
+	},
+	{
+		"name": "Screaming plant",
+		"description": "A plant that screams when it needs to be watered.",
+		"image": "/projects/screaming-plant.jpg"
+	}
+]

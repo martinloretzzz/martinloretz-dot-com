@@ -21,7 +21,7 @@ export default function Home() {
 			</div>
 			<div>
 				<h2 className="text-lg head font-bold pb-2">Cool stuff I've built:</h2>
-				<div className="grid grid-cols-2 auto-rows-auto gap-8">
+				<div className="grid grid-cols-1 md:grid-cols-2 auto-rows-auto gap-8">
 					{projects.map((project) => (
 						<Project key={project.name} {...project} />
 					))}
