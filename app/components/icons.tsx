@@ -1,11 +1,11 @@
 // Source: Paths from the material-ui icons package: https://mui.com/material-ui/material-icons/
 
-import { FC } from "react";
+import { CSSProperties, FC } from "react";
 
-const iconFromSvgPath = (path: string, name: string = "Icon"): FC<{ size: number }> => {
-	const component = ({ size }: { size: number }) => (
-		<svg viewBox="0 0 24 24" style={{ width: size, height: size, display: "inline" }}>
-			<path fill="#ffffff" d={path}></path>
+const iconFromSvgPath = (path: string, name: string = "Icon"): FC<{ size: number; style?: CSSProperties }> => {
+	const component = ({ size, style = {} }: { size: number; style?: CSSProperties }) => (
+		<svg viewBox="0 0 24 24" style={{ width: size, height: size, display: "inline", fill: "#ffffff", ...style }}>
+			<path d={path}></path>
 		</svg>
 	);
 	component.displayName = name;
@@ -30,4 +30,9 @@ export const EmailIcon = iconFromSvgPath(
 export const LinkIcon = iconFromSvgPath(
 	"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5",
 	"LinkIcon"
+);
+
+export const LikeIcon = iconFromSvgPath(
+	"M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3m-4.4 15.55-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05",
+	"LIkeIcon"
 );

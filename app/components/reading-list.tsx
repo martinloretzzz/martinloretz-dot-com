@@ -18,7 +18,7 @@ export const ReadingListSection: FC<ReadingListProps> = ({ list }) => {
 			{list.map(({ name, author, url }) => (
 				<div key={url}>
 					<LinkIcon size={16} />
-					<a className="pl-1" href={url} target="_blank">
+					<a className="pl-1 hover:text-cyan-500" href={url} target="_blank">
 						{name} - {author}
 					</a>
 					<br />
