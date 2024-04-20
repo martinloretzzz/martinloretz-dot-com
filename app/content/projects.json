@@ -12,13 +12,34 @@
 		"image": "/projects/three-body-problem.jpg"
 	},
 	{
+		"name": "Project 8Bit",
+		"description": "A turing complete, programmable 8 bit computer built from logic chips.",
+		"link": "/projects/Project8Bit.pdf",
+		"image": "/projects/8bit.jpg"
+	},
+	{
 		"name": "Electric bobbycar",
 		"description": "An electrically motorized bobbycar that drives 25km/h.",
 		"image": "/projects/bobbycar.jpg"
 	},
 	{
+		"name": "LedHoodie",
+		"description": "An hoodie with 2 led strips built in that syscronized to the music.",
+		"image": "/projects/ledhoodie.jpg"
+	},
+	{
 		"name": "Screaming plant",
 		"description": "A plant that screams when it needs to be watered.",
 		"image": "/projects/screaming-plant.jpg"
+	},
+	{
+		"name": "Homemade commabody",
+		"description": "A self balancing roboter based on commaai openpilot.",
+		"image": "/projects/commabody.jpg"
+	},
+	{
+		"name": "Space Invaders",
+		"description": "2.5D space invaders made in Jave + LWJGL.",
+		"image": "/projects/space-invaders.jpg"
 	}
 ]
