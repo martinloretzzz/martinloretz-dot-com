@@ -11,7 +11,7 @@ export default function Home() {
 		<div className="flex flex-col space-y-16">
 			<AboutSection />
 			<div>
-				<h2 className="text-lg head font-bold pb-2">Some random thoughts:</h2>
+				<h2 className="text-lg head font-bold pb-2">Random thoughts:</h2>
 				<div className="flex flex-col space-y-4">
 					{tweets.map(({ id, text, date }) => (
 						<Tweet key={id} id={id} text={text} date={date} />

@@ -14,7 +14,7 @@ interface ReadingListProps {
 export const ReadingListSection: FC<ReadingListProps> = ({ list }) => {
 	return (
 		<div>
-			<h2 className="text-lg head font-bold pb-1">Cool stuff to check out:</h2>
+			<h2 className="text-lg head font-bold pb-1">Stuff worth checking out:</h2>
 			{list.map(({ name, author, url }) => (
 				<div key={url}>
 					<LinkIcon size={16} />
