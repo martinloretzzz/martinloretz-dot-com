@@ -10,7 +10,6 @@ export default function Home() {
 	return (
 		<div className="flex flex-col space-y-16">
 			<AboutSection />
-			<ReadingListSection list={readingList} />
 			<div>
 				<h2 className="text-lg head font-bold pb-2">Some random thoughts:</h2>
 				<div className="flex flex-col space-y-4">
@@ -19,6 +18,7 @@ export default function Home() {
 					))}
 				</div>
 			</div>
+			<ReadingListSection list={readingList} />
 			<div>
 				<h2 className="text-lg head font-bold pb-2">Cool stuff I&apos;ve built:</h2>
 				<div className="grid grid-cols-1 md:grid-cols-2 auto-rows-auto gap-8">

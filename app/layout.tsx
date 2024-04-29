@@ -19,7 +19,7 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={inter.className}>
 				<main className="flex min-h-screen flex-col items-center justify-between font-mono">
-					<div className="z-10 w-full max-w-5xl items-center justify-between lg:flex py-24 px-8 md:px-24">
+					<div className="z-10 w-full max-w-5xl items-center justify-between lg:flex pt-24 pb-24 md:pb:8 px-8 md:px-24">
 						{children}
 					</div>
 					<Foother />
