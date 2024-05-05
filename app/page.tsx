@@ -1,4 +1,6 @@
+import blogPosts from "@/app/content/blog.json";
 import { AboutSection } from "./components/abount";
+import { BlogPostPreview } from "./components/blog-post-preview";
 import { Project } from "./components/project";
 import { ReadingListSection } from "./components/reading-list";
 import { Tweet } from "./components/tweet";
@@ -10,6 +12,14 @@ export default function Home() {
 	return (
 		<div className="flex flex-col space-y-16">
 			<AboutSection />
+			<div>
+				<h2 className="text-2xl head font-bold pb-2">Blog</h2>
+				<div className="flex flex-col space-y-4">
+					{blogPosts.map((post) => (
+						<BlogPostPreview key={post.slug} {...post} />
+					))}
+				</div>
+			</div>
 			<div>
 				<h2 className="text-lg head font-bold pb-2">Random thoughts:</h2>
 				<div className="flex flex-col space-y-4">
