@@ -33,12 +33,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	if (Post === undefined) throw Error("BlogPost missing in import map");
 
 	return (
-		<>
+		<div className="flex flex-col">
 			<a className="hover:text-cyan-500 block pb-4" href="/">
 				{"<-"} Back to main page
 			</a>
 			{metadata.date}
 			<div className="prose dark:prose-invert prose-zinc max-w-none">{Post}</div>
-		</>
+		</div>
 	);
 }
