@@ -34,11 +34,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
 	return (
 		<>
-			<div className="b-4">
-				<a className="hover:text-cyan-500" href="/">
-					Back to main page
-				</a>
-			</div>
+			<a className="hover:text-cyan-500 block pb-4" href="/">
+				{"<-"} Back to main page
+			</a>
 			{metadata.date}
 			<div className="prose dark:prose-invert prose-zinc max-w-none">{Post}</div>
 		</>

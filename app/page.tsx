@@ -2,7 +2,7 @@ import blogPosts from "@/app/content/blog.json";
 import { AboutSection } from "./components/abount";
 import { BlogPostPreview } from "./components/blog-post-preview";
 import { Project } from "./components/project";
-import { ReadingListSection } from "./components/reading-list";
+import { ReadingListItem } from "./components/reading-list";
 import { Tweet } from "./components/tweet";
 import projects from "./content/projects.json";
 import readingList from "./content/reading-list.json";
@@ -28,7 +28,12 @@ export default function Home() {
 					))}
 				</div>
 			</div>
-			<ReadingListSection list={readingList} />
+			<div>
+				<h2 className="text-lg head font-bold pb-1">Stuff worth checking out:</h2>
+				{readingList.map((item) => (
+					<ReadingListItem key={item.url} {...item} />
+				))}
+			</div>
 			<div>
 				<h2 className="text-lg head font-bold pb-2">Cool stuff I&apos;ve built:</h2>
 				<div className="grid grid-cols-1 md:grid-cols-2 auto-rows-auto gap-8">
