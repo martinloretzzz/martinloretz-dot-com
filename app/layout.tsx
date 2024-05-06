@@ -1,3 +1,4 @@
+import "highlight.js/styles/github-dark.min.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Foother } from "./components/foother";
