@@ -1,11 +1,11 @@
 import { PostMetadata } from "@/app/components/blog-post-preview";
 import blogPosts from "@/app/content/blog.json";
-import HelloWorldBlogPost from "@/app/content/blog/hello-world.mdx";
+import PolynomialMLPBlogPost from "@/app/content/blog/polynomial-mlp.mdx";
 import type { Metadata } from "next";
 
 // TODO dynamically load the posts and remove this map
 const postMap: Record<string, any> = {
-	"hello-world": <HelloWorldBlogPost />,
+	"polynomial-mlp": <PolynomialMLPBlogPost />,
 };
 
 const getBlogPost = (slug: string): PostMetadata | undefined => {
@@ -38,7 +38,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 				{"<-"} Back to main page
 			</a>
 			{metadata.date}
-			<div className="prose dark:prose-invert prose-zinc max-w-none">{Post}</div>
+			<div className="prose dark:prose-invert prose-zinc max-w-[100ch]">{Post}</div>
 		</div>
 	);
 }

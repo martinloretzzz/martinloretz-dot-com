@@ -1,9 +1,9 @@
 [
 	{
-		"slug": "hello-world",
-		"date": "05/05/2024",
+		"slug": "polynomial-mlp",
+		"date": "03/05/2024",
 		"author": "Martin Loretz",
-		"title": "Hello World",
-		"description": "Placeholder for my first blog post."
+		"title": "Polynomials as weights and activations for MLP's",
+		"description": "I recently read the Kolmogorov-Arnold Networks paper and I'm fascinated by the idea of moving from fixed activations on the nodes of a MLP to learned ones at the edges. Combined with some other thoughts, I applied this idea to image classification and in this process came up with the idea of polynomial MLP's."
 	}
 ]

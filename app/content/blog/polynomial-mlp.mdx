@@ -1,0 +1,96 @@
+# Polynomials as weights and activations for MLP's
+
+I recently read the [Kolmogorov-Arnold Networks](https://arxiv.org/abs/2404.19756) paper
+and I'm fascinated by the idea of moving from fixed activations on the nodes of a [MLP](https://en.m.wikipedia.org/wiki/Multilayer_perceptron)
+to learned ones at the edges. Combined with some other thoughts, I applied this idea to image classification and in this process came up with the idea of polynomial MLP’s.
+
+The general goal is to leverage computation to simplify the network architecture([The Bitter Lesson](http://www.incompleteideas.net/IncIdeas/BitterLesson.html)).
+By being able to learn the activation for all the inputs and outputs of a neuron,
+the network has the flexibility to learn an optimal and different activation for each neuron.
+
+## Function approximation
+
+To model these activation functions, we have a few options:
+
+- Linear: Used by conventional MLP's, they have a constant weight factor for each edge.
+  To approximate more complicated functions multiple layers are stacked.
+  Advantages: easily trainable, minimum amount of parameters(1 per edge).
+  Disadvantages: can only model linear relationships, needs an activation function after the layer.
+- Splines: Used in Kolmogorov-Arnold Networks.
+  Advantages: Accurate mathematical approximations, easy to adjust locally.
+  Disadvantages: piecewise construction, slow to train.
+- Polynomials: Any continuous function can be approximated by creating a [Taylor series](https://en.wikipedia.org/wiki/Taylor_series).
+  For a rough approximation a polynomial of a relatively small degree is good enough.
+  Advantages: Fast, continuous, easy to compute, easy to differentiate.
+  Disadvantages: only accurate around x=0, high degree powers lead to big terms.
+
+Every approach has their own advantages and disadvantages,
+but I think polynomials are a good tradeoff between linear and splines,
+in terms of mathematical approximation capabilities and speed.
+
+## Building a polynomial layer
+
+Source code at [github.com/martinloretzzz/polynomial-mlp](https://github.com/martinloretzzz/polynomial-mlp)
+([Open in Colab](https://colab.research.google.com/github/martinloretzzz/polynomial-mlp/blob/main/polynomial_mlp.ipynb))
+
+A polynomial layer is similar to a dense linear layer,
+but it uses polynomial functions instead of constant weights.
+The polynomial layer has 3 things to configure: in_features, out_features and polynomial_degree,
+where the first two are the same as in a linear layer.
+The [polynomial degree](https://en.wikipedia.org/wiki/Degree_of_a_polynomial) configures how many powers of the input are used,
+where a higher degree would (in theory) allow for a better approximation,
+while with the lowest degree of 1 this layer behaves like a linear layer (with an additional bias per edge).
+
+The output of a single neuron is the sum of all the polynomial functions over all the inputs (because it's a fully connected layer),
+where a polynomial function is the sum over its polynomial terms from c0 \* x^0 to cn \* x^n.
+
+In the first step we calculate all the powers of the input up to the polynomial degree (let’s call this `input_powers`)
+and add a column with ones for a constant offset term (bias).  
+As an example with a degree of 3, the tensor `tensor([[2, 4]])` will become `tensor([[[  1,   2,   4,   8], [  1,   4,  16,  64]]])`.
+
+To calculate the output of the layer efficiently, we matmul the `input_powers` with the transposed `weights` (with the last 2 dimensions of both tensors merged into one).  
+`out = input_powers.matmul(weights.t())`
+
+**There aren’t any activation functions needed after the layer,
+because the polynomials already provide the nonlinear activations for the layer.**
+
+## Training MNIST
+
+With this Polynomial Layer, training MNIST is relatively easy,
+we build our model by stacking multiple polynomial layers on top of each other.
+
+```python
+layers = nn.Sequential(
+    nn.Flatten(),
+    PolynomialLayer(28*28, 20, polynomial_degree=3),
+    PolynomialLayer(20, 10, polynomial_degree=3)
+)
+```
+
+After training we can compare this polynomial MLP to the conventional linear MLP (values are averaged over 4 runs).  
+Architecture: 784 in, 20 hidden, layernorm, 10 out, polynomial layers have a degree of 3
+
+These are the results:
+| model |dataset | val accuracy | val loss | parameter count |
+|---|---|:---:|:---:|:---:|
+| Linear MLP | MNIST | 95.27% | 0.1863 | 15950 |
+| Polynomial MLP | MNIST | 95.61% | 0.1628 | 63560 |
+| Linear MLP | FashionMNIST | 85.37% | 0.4253 | 15950 |
+| Polynomial MLP | FashionMNIST | 85.21% | 0.4294 | 63560 |
+
+## TLDR, results & conclusion:
+
+- **Polynomial MLP's provide the same accuracy on MNIST image classification**.
+- **Polynomials can provide the nonlinearities for a neural network and learn
+  the specific activation functions for each individual input**. These perform as well as linear layers with relu.
+- **Big models and high degree polynomials make the training unstable.**
+  That’s caused by the powers of the input becoming big,
+  so small changes of the coefficients of these higher degree polynomial terms (during training)
+  result in big changes of the output.
+- Linear MLP's are Polynomial MLP's with a degree of 1 (- a bias per edge).
+- Better results over linear MLP’s might be achieved for data fitting, but I haven’t played around with that too much.
+
+<br />
+You can comment on this blog post [here](https://github.com/martinloretzzz/martinloretz-dot-com/discussions/1).
+
+_Note: I'm an engineer and not a scientist. If there’s errors or improper use of mathematical terms let me know in the comments._
