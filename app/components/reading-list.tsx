@@ -12,7 +12,7 @@ export const ReadingListItem: FC<ReadingListItem> = ({ name, author, url }) => {
 		<div>
 			<LinkIcon size={16} />
 			<a className="pl-1 hover:text-cyan-500" href={url} target="_blank">
-				{name} - {author}
+				{name} {author && `- ${author}`}
 			</a>
 			<br />
 		</div>
