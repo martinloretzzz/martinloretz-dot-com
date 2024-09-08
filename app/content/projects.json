@@ -28,9 +28,9 @@
 		"image": "/projects/ledhoodie.jpg"
 	},
 	{
-		"name": "Screaming plant",
-		"description": "A plant that screams when it needs to be watered.",
-		"image": "/projects/screaming-plant.jpg"
+		"name": "Pac Man",
+		"description": "A 2.5m big, illuminated pac man.",
+		"image": "/projects/pacman.jpg"
 	},
 	{
 		"name": "Homemade commabody",
@@ -38,8 +38,8 @@
 		"image": "/projects/commabody.jpg"
 	},
 	{
-		"name": "Space Invaders",
-		"description": "2.5D space invaders made in Jave + LWJGL.",
-		"image": "/projects/space-invaders.jpg"
+		"name": "Screaming plant",
+		"description": "A plant that screams when it needs to be watered.",
+		"image": "/projects/screaming-plant.jpg"
 	}
 ]
