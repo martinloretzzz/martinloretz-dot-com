@@ -36,15 +36,21 @@
 		"type": "code"
 	},
 	{
-		"name": "Hacking the Simulation & Learning to Drive with Neural Net",
-		"author": "George Hotz/Lex Fridman Podcast#132",
-		"url": "https://www.youtube.com/watch?v=_L3gNaAVjQ4",
-		"type": "podcast"
+		"name": "Hacker's Manifesto",
+		"author": "The Mentor",
+		"url": "https://phrack.org/issues/7/3.html",
+		"type": "blog-post"
 	},
 	{
 		"name": "Moore's Law, Microprocessors, and First Principles",
 		"author": "Jim Keller/Lex Fridman Podcast#70",
 		"url": "https://www.youtube.com/watch?v=Nb2tebYAaOA",
+		"type": "podcast"
+	},
+	{
+		"name": "Hacking the Simulation & Learning to Drive with Neural Net",
+		"author": "George Hotz/Lex Fridman Podcast#132",
+		"url": "https://www.youtube.com/watch?v=_L3gNaAVjQ4",
 		"type": "podcast"
 	},
 	{
