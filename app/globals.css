@@ -18,3 +18,8 @@ body {
 		text-wrap: balance;
 	}
 }
+
+.reset-tw,
+.reset-tw * {
+	all: revert !important;
+}
