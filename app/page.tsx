@@ -4,9 +4,11 @@ import { BlogPostPreview } from "./components/blog-post-preview";
 import { Project } from "./components/project";
 import { ReadingListItem } from "./components/reading-list";
 import { Section } from "./components/section";
+import { Talk } from "./components/talks";
 import { Tweet } from "./components/tweet";
 import projects from "./content/projects.json";
 import readingList from "./content/reading-list.json";
+import talks from "./content/talks.json";
 import tweets from "./content/tweets.json";
 
 export default function Home() {
@@ -31,6 +33,13 @@ export default function Home() {
 				{readingList.map((item) => (
 					<ReadingListItem key={item.url} {...item} />
 				))}
+			</Section>
+			<Section name="Talks:">
+				<div className="grid grid-cols-1 md:grid-cols-2 auto-rows-auto gap-8">
+					{talks.map((talk) => (
+						<Talk key={talk.name} {...talk} />
+					))}
+				</div>
 			</Section>
 			<Section name="Cool stuff I've built:">
 				<div className="grid grid-cols-1 md:grid-cols-2 auto-rows-auto gap-8">

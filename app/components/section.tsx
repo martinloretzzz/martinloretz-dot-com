@@ -9,7 +9,7 @@ interface SectionProps {
 export const Section: FC<SectionProps> = ({ name, children, bigHeading = false }) => {
 	return (
 		<div>
-			<h2 className={`${bigHeading ? "text-2xl" : "text-lg"} head font-bold pb-2`}>{name}</h2>
+			<h2 className={`${bigHeading ? "text-3xl" : "text-xl"} head font-bold pb-2`}>{name}</h2>
 			{children}
 		</div>
 	);
