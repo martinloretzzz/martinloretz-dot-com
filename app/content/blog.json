@@ -1,5 +1,12 @@
 [
 	{
+		"slug": "mlp-activation-ratio",
+		"date": "21/09/2024",
+		"author": "Martin Loretz",
+		"title": "Exploring the activation ratios of different MLP layers",
+		"description": " I've become interested in understanding how many neurons in a layer (Linear + ReLU) actually contribute to the next layer versus those that remain inactive after the activation function."
+	},
+	{
 		"slug": "polynomial-mlp",
 		"date": "03/05/2024",
 		"author": "Martin Loretz",

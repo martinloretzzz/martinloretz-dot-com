@@ -1,11 +1,13 @@
 import { PostMetadata } from "@/app/components/blog-post-preview";
 import blogPosts from "@/app/content/blog.json";
+import MlpActivationRatioBlogPost from "@/app/content/blog/mlp-activation-ratio.mdx";
 import PolynomialMLPBlogPost from "@/app/content/blog/polynomial-mlp.mdx";
 import type { Metadata } from "next";
 
 // TODO dynamically load the posts and remove this map
 const postMap: Record<string, any> = {
 	"polynomial-mlp": <PolynomialMLPBlogPost />,
+	"mlp-activation-ratio": <MlpActivationRatioBlogPost />,
 };
 
 const getBlogPost = (slug: string): PostMetadata | undefined => {
