@@ -11,6 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
 	title: "Martin Loretz",
 	description: "I'm an engineer and I like to build things.",
+	icons: "/favicon.svg",
 };
 
 export default function RootLayout({
