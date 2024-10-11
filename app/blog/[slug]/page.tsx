@@ -40,7 +40,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 				{"<-"} Back to main page
 			</a>
 			{metadata.date}
-			<div className="prose dark:prose-invert prose-zinc max-w-[100ch]">{Post}</div>
+			<div className="prose prose-invert prose-zinc max-w-[100ch]">{Post}</div>
 		</div>
 	);
 }
