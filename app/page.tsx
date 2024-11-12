@@ -5,10 +5,12 @@ import { Project } from "./components/project";
 import { ReadingListItem } from "./components/reading-list";
 import { Section } from "./components/section";
 import { Talk } from "./components/talks";
+import { Tool } from "./components/tool";
 import { Tweet } from "./components/tweet";
 import projects from "./content/projects.json";
 import readingList from "./content/reading-list.json";
 import talks from "./content/talks.json";
+import tools from "./content/tools.json";
 import tweets from "./content/tweets.json";
 
 export default function Home() {
@@ -47,6 +49,11 @@ export default function Home() {
 						<Project key={project.name} {...project} />
 					))}
 				</div>
+			</Section>
+			<Section name="Online tools I made:">
+				{tools.map((tool) => (
+					<Tool key={tool.url} {...tool} />
+				))}
 			</Section>
 		</div>
 	);
