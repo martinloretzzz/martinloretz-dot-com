@@ -1,8 +1,15 @@
 [
-	{
-		"name": "Machine learning from the ground up",
-		"location": "Håck ma's Castle 2024",
-		"link": "https://media.ccc.de/v/machine-learning-from-the-ground-up",
-		"image": "/talks/MachineLearningFromTheGroundUp.jpg"
-	}
+  {
+    "name": "Machine learning from the ground up",
+    "location": "Håck ma's Castle 2024",
+    "link": "https://media.ccc.de/v/machine-learning-from-the-ground-up",
+    "image": "/talks/MachineLearningFromTheGroundUp.jpg"
+  },
+  {
+    "name": "Staatspreis für Ehrenamt and Innovation for the Umma Hüsla Hackathon",
+    "location": "Sofiensäle - Wien",
+    "link": "https://www.freiwillig-engagiert.at/staatspreis",
+    "image": "/talks/state-price-hackathon.jpg",
+    "imageSource": "BKA"
+  }
 ]
