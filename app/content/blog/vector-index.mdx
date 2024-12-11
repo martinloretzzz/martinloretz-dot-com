@@ -1,13 +1,11 @@
-# 10x Faster GPT Output Embedding with a Vector Index\*
-
-\* _on CPU, GPT2, batch size = 4, approximate search, including only the output embedding matrix_
+# Accelerate GPT Output Embedding computations with a Vector Index
 
 ## Motivation
 
 The input and output embeddings of transformer-based LLMs are massive. For example,
 GPT-2's embeddings make up 38.5M (50257 x 768) out of 124M total parameters (~30%).
 
-To generate text with these models, we sample from the model's predicted token probabilities. A popular method is [top-k sampling](https://ivibudh.medium.com/a-guide-to-controlling-llm-model-output-exploring-top-k-top-p-and-temperature-parameters-ed6a31313910), which samples from the k most probable tokens, preventing the selection of highly unlikely tokens.
+To generate text with these models, these embeddings are used to calculate the probabilities from what we sample the next token. A popular sampling method is [top-k sampling](https://ivibudh.medium.com/a-guide-to-controlling-llm-model-output-exploring-top-k-top-p-and-temperature-parameters-ed6a31313910), which samples from the k most probable tokens, preventing the selection of highly unlikely tokens.
 
 For this sampling strategy we're only interested in the 50 (huggingface default for k) most likely tokens out of 50,257 possible tokens - **less than 0.1%**. Is it possible to get only these 50 tokens without calculating logits for all 50k tokens?
 
@@ -28,7 +26,7 @@ I tried both, but only got good results for HNSW.
 
 ### HNSW Layer
 
-The HNSW layer is built on top of [hnswlib](https://github.com/nmslib/hnswlib) and outputs the indices and logits of the largest k elements.
+The HNSW layer is built on top of [hnswlib](https://github.com/nmslib/hnswlib) and outputs the indices and logits of the most probable k tokens, directly from the last hidden state.
 
 The time complexity of search on a HNSW index is O(log(n)).
 
@@ -80,6 +78,8 @@ If you're interested in working on any of these, check out the [git repo](https:
 ### Accelerate.<br /><br />
 
 You can comment on this blog post [here](https://github.com/martinloretzzz/vector-index-layer/discussions).
+
+For updates follow me on 𝕏/twitter: [martinloretzzz](https://x.com/martinloretzzz)
 
 _I'm available for opportunities focused on solving AGI and all the challenges along the way,
 especially interested in architectures, frameworks and performance optimizations like this one. Feel free to reach out: work@martinloretz.com._
