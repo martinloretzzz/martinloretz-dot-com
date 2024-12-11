@@ -1,5 +1,12 @@
 [
 	{
+		"slug": "vector-index",
+		"date": "11/12/2024",
+		"author": "Martin Loretz",
+		"title": "10x Faster GPT Output Embedding with a Vector Index",
+		"description": "The input and output embeddings of transformer-based LLMs are massive. For example, GPT-2's embeddings make up 38.5M (50257 x 768) out of 124M total parameters (~30%)."
+	},
+	{
 		"slug": "mlp-activation-ratio",
 		"date": "21/09/2024",
 		"author": "Martin Loretz",
