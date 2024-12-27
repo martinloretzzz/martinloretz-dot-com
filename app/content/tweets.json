@@ -1,5 +1,9 @@
 [
-	{ "id": "1658687103763611650", "text": "Engineering is the fight against complexity.", "date": "May 17, 2023" },
+	{
+		"id": "1658687103763611650",
+		"text": "Engineering is the fight against complexity.",
+		"date": "May 17, 2023"
+	},
 	{
 		"id": "1733126845229666772",
 		"text": "If you shake a box of lego long enough, at some point it will be assembled by chance.",
@@ -31,9 +35,19 @@
 		"date": "Dez 10, 2023"
 	},
 	{
+		"id": "1783001703954227451",
+		"text": "Life exists because it wastes more useful energy than dead matter.",
+		"date": "Apr 24, 2024"
+	},
+	{
 		"id": "1796202774390010219",
 		"text": "Learning is the lossy compression of information to store it in the finite memory of the brain.",
 		"date": "May 30, 2024"
+	},
+	{
+		"id": "1797316645473460684",
+		"text": "The brain is an information cache, with the internet as the source.",
+		"date": "Jun 2, 2024"
 	},
 	{
 		"id": "1594294827109289984",
