@@ -1,0 +1,176 @@
+# Throwing away half the vocab of GPT's by building a space and case aware tokenizer
+
+# Content
+
+## Byte pair tokenization
+
+Language models don't understand text directly, we need to discretize any text into a sequence of numbers.
+There's a few ways to do that, the most commen way currently is Byte Pair encoding, that iteratively combines
+often occuring pairs of tokens into new token. This allows for a flexible encoding of any text into subwords that
+often itself encode concepts itself.
+
+## Breaking down the GPT-2 vocab
+
+This all started when I wanted some deepter understanding about how the embeddings of GPT models work,
+so to start I read the whole vocab of GPT2 to get a feeling for the possible token immedietly noticed, there's
+so many similar tokens in the vocab. GPT2 tokenizes a space as Ġ.
+
+For example for cat we find:
+
+```json
+"Ġcat": 3797,
+"ĠCat": 5181,
+"cat": 9246,
+"Cat": 21979,
+```
+
+All these tokens conceptionally represent the same thing, only the formatting differs.
+For the model they're 4 completely unrelated things at first and only through training the model realizes they're
+actually nearly the same things.
+
+## Exploring the encoding of spaces
+
+We found a lots of dublicated tokens with spaces, so to get a more graphical intuition about the differences between
+the tokens with and without space, let's plot these differences as an image: (red: differnece positive, green: difference negative, along all 768 dimension):
+![image](/blog/space-tokenizer/space-diff.png)
+That doesn't look like random at all, if we average it out we get the following (added) embedding vector for a space:
+![image](/blog/space-tokenizer/space-diff-average.png)
+
+So there's a vector that repesents a space. What if we combine the tokens with space and without to one and
+then just add the space vector if the token is prefixed with a space, otherwise not doing anything?
+
+## Dublicated tokens
+
+If we look at the GPT2 vocab, the total dublications are around(Vocab size: 50257):
+
+| Token             | Dublicates GPT2 | Dublicates GPT4o\* |
+| :---------------- | --------------: | -----------------: |
+| Space             |           14.6% |               14.6 |
+| Case\*            |           13.4% |               10.5 |
+| Space + Uppercase |           27.9% |              25.1% |
+
+\* only includes the 132141 that are UTF8-encodeable contain only ascii characters of the vocab of 203778  
+\* space insensitive
+
+We also split our training data between the 4 tokens, so we need more training data for the model to learn they're the same thing.
+
+## Scaffold tokens
+
+But bechause of how BPE works, this decrease of 28% translates to a decrease of 50% after the tokenizer is retrained.
+The new vocab without the space and case allows for cleaner tokens and tokens, that aren't (space) first letter and the rest,
+because of the reduced amount of possible combinations.
+
+Another example is machine:
+
+```json
+"Ġmachine": 4572,
+"ĠMachine": 10850,
+"machine": 30243,
+"Machine": 37573,
+```
+
+Because all these tokens have everything in common except the first character, there's a high probablility
+that there's also the token:
+
+```json
+"achine": 20480,
+```
+
+And this token also only appears to be used for the last 2 tokens, the first 2 look like they're made out of "Ġm"/"ĠM" + "ach" + "ine".
+
+That token isn't used for anything except at the building stage of the BPE encoding, so there isn't much use of this token in the model.
+
+But when we combine all those 4 machine tokens into one, this intermediate token "achine" isn't accouring
+often in the text anymore, so there's no need for BPE to use it as an intermediate token and we can remove it afterwards.
+
+![image](/blog/space-tokenizer/scaffold-tokens.png)
+
+## Training a tokenizer
+
+We use a modified version of huggingface's tokenizers library that removes all the leading spaces and makes
+the first letter to lowercase after splitting it with the GPT2 regex. Then we apply normal BPE on the "wikitext-103-raw-v1"
+dataset. Trained on around ~0.11 BT.
+
+To remove all the scaffold tokens (all the tokens like "achine"), we train the tokenizer with a vocab 10% bigger
+than our final vocab (e.g. 22k at a vocab of 20k). THen we tokenize the whole dataset with this tokenizer, count all the
+token appearances and cut away the 10% of the rarest occuring tokens.
+
+```json
++-----------------+-------+-------+
+|   Token (int)   | Case  | Space |
++-----------------+-------+-------+
+|    0010 1010    |   1   |   0   |
++-----------------+-------+-------+
+```
+
+Space 20k: Remove scaffold tokens, 10%
+
+| Token                | Vocab Size | Tokens for fineweb-edu 10BT | Compression Ratio |
+| :------------------- | ---------: | --------------------------: | ----------------: |
+| GPT2 50k (Reference) |      50257 |                     9.95 BT |                 1 |
+| GPT2 20K             |      20257 |                     11.2 BT |             1.125 |
+| Space 20K            |      20257 |                    10.09 BT |             1.014 |
+
+## Tweak transformer architecture
+
+Sampling, predicting space and case per token
+
+The problem is, we can't just predict wether the next token will have a space or not and be uppercase or not,
+because that depends on what the next token will be that we sample from the model.
+So for that we need to predict the space and case properties for all output tokens indivisually.
+Because we only care about these properties from the sampled token, we can only calculate these after we sample,
+so we don't need to du any unused computation.
+To save parameters, we can downscale the embedding dimesion from 768 to 96 and calculate these modifiers from that
+reduced dimension that works resonably well.
+
+NanoGPT is used as the base.
+
+![image](/blog/space-tokenizer/hellaswag.png)
+
+## Evaluate trained models
+
+The 20k model doesn't only outperform the GPT2 model by a big margin, it also outperforms the GPT2 model with a vocab
+of 50k (10%? more parameters).
+This model achives the same hellaswag score than the 20k model after half of the training steps.
+
+I decised to compare 2 same parameter count models, so we comapre one with 20k space tokenizer with a reference
+GPT2 model with a vocab size of 20257.
+
+The hellaswag results are the following:
+
+We se that the space tokenizer model not only outperforms the model with 20k tokens, but even the one with 59k tokens.
+
+An interesting result is, that increasing the vocabulary from 20k to 50k only slightly improves the scores on
+the hellaswag benchmark and a space aware tokenizer with less then half of the vocab still drastically outperforms
+the reference model with a vocab of 50k.
+
+I think that's while the reference model might have the same vocab, their embeddings of token and Ġtoken is still
+quite different (see the random noise in the comparison above) and the different amount of occurrences in the training
+data results in considerlibly differnet encodings.
+
+| Task           | hf-50k | ref-20k | space-20k |
+| :------------- | -----: | ------: | --------: |
+| hellaswag      | 28.92% |  28.83% |    29.59% |
+| arc_easy       | 43.81% |  51.05% |    53.91% |
+| lambada_openai | 32.56% |  22.28% |    23.23% |
+| piqa           | 62.89% |  61.70% |    63.00% |
+
+## Composite tokenizers
+
+I would prefer to live in a world were we don't need any tokenizers, but until then we can only improve our
+current tokenizers to capture more meaning and being more efficient.
+
+The generalized form of this tokenizer would be one, that can handle spaces, letter casing and all possible pre-
+and suffixes(s, ed, ing, 'll, 've)
+
+E.g. the word " Building" could be represented by:
+build  
+□ing  
+↑□  
+(space)□
+
+## Implications
+
+--
+
+I'm looking for new challanges in this area, if you're hiring, feel free to contact me ar work@marinloretz.com

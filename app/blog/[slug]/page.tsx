@@ -1,7 +1,9 @@
 import { PostMetadata } from "@/app/components/blog-post-preview";
 import blogPosts from "@/app/content/blog.json";
+import LinearTokenizerPost from "@/app/content/blog/linear-tokenizer.mdx";
 import MlpActivationRatioBlogPost from "@/app/content/blog/mlp-activation-ratio.mdx";
 import PolynomialMLPBlogPost from "@/app/content/blog/polynomial-mlp.mdx";
+import SpaceTokenizerPost from "@/app/content/blog/space-tokenizer.mdx";
 import GPTVectorIndexPost from "@/app/content/blog/vector-index.mdx";
 import type { Metadata } from "next";
 
@@ -9,6 +11,8 @@ import type { Metadata } from "next";
 const postMap: Record<string, any> = {
 	"polynomial-mlp": <PolynomialMLPBlogPost />,
 	"mlp-activation-ratio": <MlpActivationRatioBlogPost />,
+	"space-tokenizer": <SpaceTokenizerPost />,
+	"linear-tokenizer": <LinearTokenizerPost />,
 	"vector-index": <GPTVectorIndexPost />,
 };
 

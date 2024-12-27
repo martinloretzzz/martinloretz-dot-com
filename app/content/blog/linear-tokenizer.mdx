@@ -1,0 +1,109 @@
+# Speeding up tokenization by 10X and improving model capabilities by linearly encoding text using prefix trees
+
+While trying to build a better tokenizer that handles spaces and capitalized tokens
+as a variations of a base token, I noticed some training runs worked better than expected.
+After a lot of investigation, I relaized my simple tokenizer
+that used prefix trees instead of [BPE](https://en.wikipedia.org/wiki/Byte_pair_encoding) seemed like the cause
+(It was using prefix trees because my python implementation of BPE was way too slow).<br /><br />
+
+## How does prefix tree encoding work?
+
+A [Prefix trees](https://en.wikipedia.org/wiki/Trie) is a tree data structure where all chilren of a node share the same prefix and
+each child adds one character to this prefix (in it's simplest form).  
+This structure allows an easy and fast lookup of words, where we start at the root node and traversing down the child nodes
+character by character. When we reach the end of the word, we get the token id from the last node, but when
+we reach a node that doesn't have a child with the next character, we stop the encoding at the last node that has an id,
+add this id to our output tokens and start again at the root node with the remaining part of the word.
+
+To get the vocab for our prefix tree we still use BPE for splitting all possible words into a limited amount of tokens.
+There might be better ways to get the vocab for prefix encoding, but that's for future work (and pruning rarely used tokens).
+
+The GPT2 [vocab](https://huggingface.co/openai-community/gpt2/raw/main/vocab.json) with a vocab size of 50257 is used for all of the following work.
+
+![Trie](/blog/linear-tokenizer/trie-example.png)
+
+#### Example: tea
+
+We start at the root node, go down the t, e, a edges and get the 3 as the id of the last node, so the encoding of the word '_tea_' is [3]
+
+#### Example: tei
+
+We start at the root node, go down the t and e edge, where we reach a node that doesn't have child with i,
+so we get 6 as the id from the '_te_' node.
+Then we take the remaining text '_i_' and start again a the root node going down the i edge reaching the end of our word
+at the i node with an id of 11.
+The full encoing of the word '_tei_' is [6, 11].<br /><br />
+
+## Why could prefix tree based tokenization perform better than BPE?
+
+Both tokenizer use the vocab of GPT2 containing 50257 tokens and being trained by BPE. There might be ways to generate vocabs that work
+better with prefix tokenizers, but that's for future work, for now we want so see if a prefix tokenizer can work better using the same vocab.
+
+The argument for byte pair encoding is, that is merges common subparts of words togeder to capture linguistic concepts.
+This works fairly well, but fails sometimes expecially for common suffixes that are merged to the characters before the suffix,
+and forming a token like ining, that might be common, but doesn't contain any realy lingusitic meaning.
+
+Prefix encoding works better with these suffixes, because it starts form the first character and looks for the biggest possible
+token, not common subtokens that might or might not have some linguistic meaning.
+Transformers predict the next work in a linear fashion what might work better with prefix encoding that encodes everything in this
+linear faschion, compared to BPE that merges the tokens all over the word according it's merge list.
+
+#### Here is a comparison of some words tokenized with the original GPT2 BPE tokenizer(tiktoken) and the prefix tokenizer:
+
+<br />
+
+```
+| word         | bpe            | lin            |
+| ------------ | -------------- | -------------- |
+| machine      | machine        | machine        |
+| machines     | m, ach, ines   | machine, s     |
+| machined     | m, ach, ined   | machine, d     |
+| machining    | m, ach, ining  | mac, hin, ing  |
+| token        | token          | token          |
+| tokens       | t, ok, ens     | token, s       |
+| tokenized    | token, ized    | token, ized    |
+| tokenes      | token, es      | token, es      |
+| query        | query          | query          |
+| querying     | quer, ying     | query, ing     |
+| queries      | qu, eries      | quer, ies      |
+| container    | container      | container      |
+| containers   | cont, ainers   | container, s   |
+| transformer  | trans, former  | transform, er  |
+| transformers | transform, ers | transform, ers |
+| transforming | trans, forming | transform, ing |
+```
+
+Words like '_token_' / '_t,ok,ens_' or '_container_' / '_cont,ainers_', produce quite unnatural encodings with BPE,
+but are fine with prefix tree encoding.  
+Transformer is split differently, depending on the suffix the: '_trans,former_' or '_transform,er_'.
+
+## Tokenizer comression
+
+When tokenizing the '_HuggingFaceFW/fineweb-edu_' dataset (sample-10BT) for the following GPT training runs,
+we get the following amount of tokens:
+
+| Tokenizer      | Token Count |
+| :------------- | ----------: |
+| BPE (tiktoken) |     9.95 BT |
+| Prefix Tree    |     9.93 BT |
+
+We see that the prefix tokenizer results in slightly less tokens, about 0.2% than the original tokenizer.
+With less tokens, the context window contains more information.
+
+## Tokenizer performance
+
+Until now I only made a python implementaion of the prefix tree tokenizer, that's already slightly faster than tiktoken.
+I quickly tried to write a C++ extension only for the prefix tree encoding step, and the speedup of this part was about 10X.
+With a full C++ tokenizer, I expect that 10X should also be possible for the whole tokenizer, probably even more.
+The time complexity of the tokenizer is O(n).
+
+## Evaluation results of the trained GPT2 mdoels
+
+![HellaSwag GPT2](/blog/linear-tokenizer/hellaswag.png)
+
+###
+
+### TODO expand evaluation results TODO train 2 medium models with half the batch size and to 10k steps
+
+All source code is avaliable on Github: [martinloretzzz/linear-tokenizer](https://github.com/martinloretzzz/linear-tokenizer)
+All runs can be viewed on Weights and Biases: [linear-tokenizer](https://wandb.ai/martinloretzzz/linear-tokenizer/workspace)
