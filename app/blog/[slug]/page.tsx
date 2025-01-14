@@ -2,14 +2,16 @@ import { PostMetadata } from "@/app/components/blog-post-preview";
 import blogPosts from "@/app/content/blog.json";
 import MlpActivationRatioBlogPost from "@/app/content/blog/mlp-activation-ratio.mdx";
 import PolynomialMLPBlogPost from "@/app/content/blog/polynomial-mlp.mdx";
-import GPTVectorIndexPost from "@/app/content/blog/vector-index.mdx";
+import VectorIndexPost from "@/app/content/blog/vector-index.mdx";
+import VectorIndexV0Post from "@/app/content/blog/vector-index-v0.mdx";
 import type { Metadata } from "next";
 
 // TODO dynamically load the posts and remove this map
 const postMap: Record<string, any> = {
 	"polynomial-mlp": <PolynomialMLPBlogPost />,
 	"mlp-activation-ratio": <MlpActivationRatioBlogPost />,
-	"vector-index": <GPTVectorIndexPost />,
+	"vector-index-cpu": <VectorIndexPost />,
+	"vector-index": <VectorIndexV0Post />,
 };
 
 const getBlogPost = (slug: string): PostMetadata | undefined => {

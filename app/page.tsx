@@ -19,9 +19,11 @@ export default function Home() {
 			<AboutSection />
 			<Section name="Blog" bigHeading>
 				<div className="flex flex-col space-y-8">
-					{blogPosts.map((post) => (
-						<BlogPostPreview key={post.slug} {...post} />
-					))}
+					{blogPosts
+						.filter((post) => post.visible ?? true)
+						.map((post) => (
+							<BlogPostPreview key={post.slug} {...post} />
+						))}
 				</div>
 			</Section>
 			<Section name="Random thoughts:">
