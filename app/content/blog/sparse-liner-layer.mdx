@@ -1,0 +1,84 @@
+# WIP: Skipping Zeros: Exploring Sparse Linear Layers
+
+> If we multiply any number with zero the result will also be zero.
+
+There's a simple mathematical rule:
+The nice thing we can derive from this rule is, that when we know one factor is zero, we don't even need to load the value from memory.
+
+When we stack multiple linear layers with ReLU activation to a deep neural network, we know that after the ReLU only a small fraction of the neurons are active (have a non zero value), as we found out in previous work: [Exploring the activation ratios of different MLP layers](https://martinloretz.com/blog/mlp-activation-ratio/).
+
+## How does a linear layer work?
+
+In a linear layer, each neuron performs a weighted sum over the inputs plus a bias:
+
+$$ \mathbf{y} = \mathbf{W} \mathbf{x} + \mathbf{b} $$
+
+But I like to think about in a more graphic sense, bacause it makes it easier afterwards when we skip stuff:
+
+We do an elementwise multiplication with the input and the rows of the weight, moving vertically from top to bottom.
+In the second step we sum up the elements horizontally and a bias to get the output for the neurons.
+
+![image](/blog/sparse-linear-layer/linearlayer.png)
+
+Then we add the bias and apply an activation function, commonly ReLU to keep all positve neuron activations, while setting all others to 0.
+
+## Sparse Multiplication
+
+## Psydocode implementations:
+
+### Dense Matrix Vector Product
+
+```python
+for j in range(co):
+    sum = 0
+    for i in range(ci):
+        sum += mat[i][j] * x[i]
+    y[j] = sum
+```
+
+REF
+2000 memory reads
+
+### Sparse Matrix Vector Product
+
+```python
+offsets = [i for i in range(len(x)) if x[i] > 0]
+for j in range(co):
+    sum = 0
+    for i in range(len(offsets)):
+        o = offsets[i]
+        sum += mat[o][j] * x[o]
+    y[j] = sum
+```
+
+On a 100, 10 matrix, this results in 600 memory acceses. But we can do better by batching this function.
+
+### Batched Sparse Matrix Vector Product
+
+```python
+offsets = [i for i in range(len(x)) if x[i] > 0]
+for j in range(co // 2):
+    sum0 = 0
+    sum1 = 0
+    for i in range(len(offsets)):
+        o = offsets[i]
+        xi = x[o]
+        sum0 += mat[o][2*j] * xi
+        sum0 += mat[o][2*j+1] * xi
+    y[2*j] = sum0
+    y[2*j+1] = sum1
+```
+
+## Performance of the GPU
+
+Comparing the performance of the sparse and the dense layer on a GPU with the sparse implemented in triton, we get the following results:
+
+![image](/blog/sparse-linear-layer/plot-activation-ratio.png)
+
+## LLM's
+
+- GeLU or some fancy modern alternatives
+- Finetune to ReLU
+- shanghai university
+- big speedups
+- ReLU^2
