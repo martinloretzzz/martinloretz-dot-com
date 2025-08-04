@@ -1,5 +1,12 @@
 [
 	{
+		"slug": "mnist-fpga",
+		"date": "02/07/2025",
+		"author": "Martin Loretz",
+		"title": "Discretized Boosted Decision Trees for High-Speed FPGA-Optimized Digit Recognition",
+		"description": "This paper presents a high-speed, FPGA-optimized implementation of boosted decision trees for handwritten digit recognition on the MNIST dataset, achieving a test set accuracy of 97.73% and a throughput of 640 million images per second on a Cyclone V FPGA."
+	},
+	{
 		"slug": "vector-index-cpu",
 		"date": "15/01/2025",
 		"author": "Martin Loretz",

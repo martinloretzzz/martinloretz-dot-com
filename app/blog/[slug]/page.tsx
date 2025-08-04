@@ -4,6 +4,7 @@ import MlpActivationRatioBlogPost from "@/app/content/blog/mlp-activation-ratio.
 import PolynomialMLPBlogPost from "@/app/content/blog/polynomial-mlp.mdx";
 import VectorIndexPost from "@/app/content/blog/vector-index.mdx";
 import VectorIndexV0Post from "@/app/content/blog/vector-index-v0.mdx";
+import MNISTFPGAPost from "@/app/content/blog/mnist-fpga.mdx";
 import type { Metadata } from "next";
 
 // TODO dynamically load the posts and remove this map
@@ -12,6 +13,7 @@ const postMap: Record<string, any> = {
 	"mlp-activation-ratio": <MlpActivationRatioBlogPost />,
 	"vector-index-cpu": <VectorIndexPost />,
 	"vector-index": <VectorIndexV0Post />,
+	"mnist-fpga": <MNISTFPGAPost />,
 };
 
 const getBlogPost = (slug: string): PostMetadata | undefined => {
