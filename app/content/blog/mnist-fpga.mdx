@@ -28,7 +28,7 @@ The distribution of leaf scores is visualized in this histogram (for non-discret
 
 ![image](/blog/mnist-fpga/leaf-value-histogram.png)
 
-While the trees of the first iterations have larger scores, the magnitude of these scores decreases rapidly, with later trees contributing less to the total score. Based on this distribution, we propose this set of discrete values: $$ \{ -1/4, -1/8, -1/16, -1/32, -1/64, 0, 1/64, 1/32, 1/16, 1/8, 1/4, 1/2, 1, 2 \} $$.
+While the trees of the first iterations have larger scores, the magnitude of these scores decreases rapidly, with later trees contributing less to the total score. Based on this distribution, we propose this set of discrete values: \{ -1/4, -1/8, -1/16, -1/32, -1/64, 0, 1/64, 1/32, 1/16, 1/8, 1/4, 1/2, 1, 2 \}.
 
 This set enables a binary-like series expansion for intermediate values by combining multiple decision trees with identical conditions in sequence; whether the model uses this capability can be investigated in future work.
 
