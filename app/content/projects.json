@@ -1,9 +1,19 @@
 [
 	{
-		"name": "happyswing",
-		"description": "A huge swing that generates music and light effects, depending on how crazy you swing.",
-		"link": "https://www.mohap.at/schaukel-1/",
-		"image": "/projects/swing.jpg"
+		"name": "Project 8Bit",
+		"description": "A turing complete, programmable 8 bit computer built from logic chips.",
+		"link": "/projects/Project8Bit.pdf",
+		"image": "/projects/8bit.jpg"
+	},
+	{
+		"name": "Pac Man",
+		"description": "A 2.5m big, illuminated pac man.",
+		"image": "/projects/pacman.jpg"
+	},
+	{
+		"name": "Electric bobbycar",
+		"description": "An electrically motorized bobbycar that drives 25km/h.",
+		"image": "/projects/bobbycar.jpg"
 	},
 	{
 		"name": "Three Body Problem",
@@ -12,25 +22,15 @@
 		"image": "/projects/three-body-problem.jpg"
 	},
 	{
-		"name": "Project 8Bit",
-		"description": "A turing complete, programmable 8 bit computer built from logic chips.",
-		"link": "/projects/Project8Bit.pdf",
-		"image": "/projects/8bit.jpg"
-	},
-	{
-		"name": "Electric bobbycar",
-		"description": "An electrically motorized bobbycar that drives 25km/h.",
-		"image": "/projects/bobbycar.jpg"
-	},
-	{
 		"name": "LedHoodie",
 		"description": "An hoodie with 2 led strips built in that syscronized to the music.",
 		"image": "/projects/ledhoodie.jpg"
 	},
 	{
-		"name": "Pac Man",
-		"description": "A 2.5m big, illuminated pac man.",
-		"image": "/projects/pacman.jpg"
+		"name": "happyswing",
+		"description": "A huge swing that generates music and light effects, depending on how crazy you swing.",
+		"link": "https://www.mohap.at/schaukel-1/",
+		"image": "/projects/swing.jpg"
 	},
 	{
 		"name": "Homemade commabody",
